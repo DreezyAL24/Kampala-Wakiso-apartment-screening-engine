@@ -1,0 +1,12 @@
+{
+  "last_scrape_at": "2026-07-25T00:00:00Z",
+  "last_scrape_display": "25 July 2026",
+  "status": "idle",
+  "sources_scanned": ["PropertyPro", "Uganda Property Agents", "RED", "Jiji"],
+  "tools_used": ["urllib", "exa", "firecrawl", "scrapling"],
+  "listings_checked": 106,
+  "listings_ok": 89,
+  "listings_failed": 17,
+  "new_discoveries": 0,
+  "message": "Baseline re-scan completed 25 July 2026"
+}

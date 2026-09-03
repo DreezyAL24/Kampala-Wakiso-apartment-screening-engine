@@ -1,0 +1,40 @@
+name: Scrape apartment listings
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [scrape-now]
+
+permissions:
+  contents: write
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r scripts/requirements.txt
+
+      - name: Install Firecrawl CLI
+        run: npm install -g firecrawl-cli
+        continue-on-error: true
+
+      - name: Run scrape orchestrator
+        env:
+          EXA_API_KEY: ${{ secrets.EXA_API_KEY }}
+          FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+        run: python scripts/scrape_orchestrator.py
+
+      - name: Commit scrape results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scrape-status.json _fetch_status.json _pages/ || true
+          git diff --staged --quiet || git commit -m "Update scrape results [skip ci]"
+          git push
