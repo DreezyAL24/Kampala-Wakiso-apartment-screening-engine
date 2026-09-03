@@ -2,3 +2,5 @@ _pages/
 _*.py
 _*.json
 design/
+__pycache__/
+*.pyc
